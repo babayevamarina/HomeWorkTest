@@ -3,7 +3,7 @@ public class NotebookEntry {
     private String noteName;
     private String noteContent;
 
-    NotebookEntry(String name, String content) {
+    public NotebookEntry(String name, String content) {
         noteName = name;
         noteContent = content;
     }
