@@ -5,6 +5,9 @@ public class Notebook {
     private int noteNum = 0;
     private NotebookEntry[] notes = new NotebookEntry[initialSize];
 
+    public Notebook() {
+        System.out.println("New " + Main.getUserName() + "'s " + "Notebook created");
+    }
 
     public int getNoteNum() {
         return noteNum;
@@ -21,7 +24,7 @@ public class Notebook {
         if (numDelete > noteNum) {
             System.out.println("Sorry, this note does note exist");
         } else {
-            for (int i = numDelete - 1; i < noteNum - 1; i++) {
+            for (int i = numDelete - 1; i < noteNum; i++) {
                 notes[i] = notes[i + 1];
                 notes[noteNum] = null;
             }

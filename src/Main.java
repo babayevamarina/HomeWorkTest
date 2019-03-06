@@ -3,74 +3,65 @@ import java.util.Scanner;
 public class Main {
     private static String userName;
 
-    public static void userName() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Hello! Enter your name, please: ");
-        userName = in.nextLine();
-    }
 
+
+    public static void initUserName(ConsoleController console) {
+        userName = console.consoleStringInput("Hello! Enter your name, please: ");
+    }
     public static String getUserName() {
         return userName;
     }
 
     public static void main(String[] args) {
-        userName();
+        Scanner scanner = new Scanner(System.in);
+        ConsoleController console = new ConsoleController(scanner);
+        initUserName(console);
         Notebook newNotebook = new Notebook();
-        System.out.println("New " + getUserName() + "'s " + "Notebook created");
 
         while (true) {
-            Scanner in = new Scanner(System.in);
-            System.out.println(getUserName() + ", " + "what do you want to do next?\n" +
-                    "Enter: add note, delete note, edit note or show all.\n" +
+            String nextAct = console.consoleStringInput(getUserName() + ", " + "what do you want to do next?\n" +
+                    "Enter: add, delete, edit or show all.\n" +
                     "For user name change print: user");
-            String nextAct = in.nextLine();
-            if (nextAct == null) {
-                System.out.println("Try again \n");
-            }
-            else if ((nextAct.equals("add note")) || (nextAct.equals("add")))  {
-                Scanner inName = new Scanner(System.in);
-                System.out.println("Enter the name of your note: ");
-                String name = inName.nextLine();
-                Scanner inContent = new Scanner(System.in);
-                System.out.println("Enter your note: ");
-                String content = inContent.nextLine();
-                NotebookEntry newNote = new NotebookEntry(name,content);
-                newNotebook.addNote(newNote);
-            }
-            else if ((nextAct.equals("delete note")) || (nextAct.equals("delete"))) {
-                Scanner inNum = new Scanner(System.in);
-                System.out.println("Enter the number of the note you want to delete (from 1): ");
-                Integer num = inNum.nextInt();
-                newNotebook.deleteNote(num);
-            }
-            else if ((nextAct.equals("show all")) || (nextAct.equals("show"))) {
-                newNotebook.showAll();
-            }
-            else if ((nextAct.equals("edit note")) || (nextAct.equals("edit"))) {
-                Scanner inEdit = new Scanner(System.in);
-                System.out.println("Enter the number of the note you want to edit (from 1): ");
-                Integer numEdit = inEdit.nextInt();
-                if (numEdit > newNotebook.getNoteNum()) {
-                    System.out.println("Sorry, this note does note exist");
+            switch (nextAct) {
+                case "add" : {
+                    String name = console.consoleStringInput("Enter the name of your note: ");
+                    String content = console.consoleStringInput("Enter your note: ");
+                    NotebookEntry newNote = new NotebookEntry(name,content);
+                    newNotebook.addNote(newNote);
+                    break;
                 }
-                else {
-                    Scanner inNewName = new Scanner(System.in);
-                    System.out.println("Enter new name: ");
-                    String newName = inNewName.nextLine();
-                    Scanner inNewContent = new Scanner(System.in);
-                    System.out.println("Enter new content: ");
-                    String newContent = inNewContent.nextLine();
-                    NotebookEntry editedNote = new NotebookEntry(newName, newContent);
-                    newNotebook.editNote(numEdit, editedNote);
+                case "delete": {
+                    Integer num = console.consoleIntInput("Enter the number of the note you want to delete " +
+                            "(starting from 1): ");
+                    newNotebook.deleteNote(num);
+                    break;
                 }
-            }
-            else if (nextAct.equals("user")) {
-                userName();
-            }
-            else {
-                System.out.println("Try again \n");
+                case "edit": {
+                    Integer num = console.consoleIntInput("Enter the number of the note you want to edit (from 1): ");
+                    if (num > newNotebook.getNoteNum()) {
+                        System.out.println("Sorry, this note does note exist");
+                    }
+                    else {
+                        String newName = console.consoleStringInput("Enter new name: ");
+                        String newContent = console.consoleStringInput("Enter new content: ");
+                        NotebookEntry editedNote = new NotebookEntry(newName, newContent);
+                        newNotebook.editNote(num, editedNote);
+                    }
+                    break;
+                }
+                case "show all": {
+                    newNotebook.showAll();
+                    break;
+                }
+                case "user": {
+                    initUserName(console);
+                    break;
+                }
+                default: {
+                    System.out.println("Try again");
+                    break;
+                }
             }
         }
-
     }
 }
