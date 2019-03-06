@@ -11,7 +11,7 @@ public class ConsoleController {
     }
 
     public String consoleStringInput(String message) {
-        String nextLine = "";
+        String nextLine = EMPTY_STRING;
         while (nextLine.equals(EMPTY_STRING)) {
             System.out.println(message);
             nextLine = scanner.nextLine();
@@ -19,8 +19,8 @@ public class ConsoleController {
         return nextLine;
     }
     public Integer consoleIntInput(String message) {
-        int nextNum = 0;
-        while (nextNum == 0) {
+        Integer nextNum = null;
+        while (nextNum == null) {
             System.out.println(message);
             nextNum = scanner.nextInt();
         }

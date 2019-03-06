@@ -1,12 +1,12 @@
 import java.util.Arrays;
 
 public class Notebook {
-    private final static int initialSize = 50;
+    private final static int INITIAL_SIZE = 50;
     private int noteNum = 0;
-    private NotebookEntry[] notes = new NotebookEntry[initialSize];
+    private NotebookEntry[] notes = new NotebookEntry[INITIAL_SIZE];
 
     public Notebook() {
-        System.out.println("New " + Main.getUserName() + "'s " + "Notebook created");
+        System.out.println("New " + Main.getUserName() + "'s Notebook created");
     }
 
     public int getNoteNum() {
@@ -28,7 +28,7 @@ public class Notebook {
                 notes[i] = notes[i + 1];
                 notes[noteNum] = null;
             }
-            noteNum = noteNum - 1;
+            noteNum--;
             arrSizeCheck();
             System.out.println("Done");
         }
@@ -42,7 +42,7 @@ public class Notebook {
 
     public void showAll() {
         if (noteNum <= 0) {
-            System.out.println("Sorry, there are no any notes in Notebook");
+            System.out.println("Sorry, there are not any notes in Notebook");
         } else {
             for (int i = 0; i <= noteNum - 1; i++) {
                 System.out.println(noteNum + " " + notes[i].getNoteName() + ": " + notes[i].getNoteContent());
@@ -55,8 +55,8 @@ public class Notebook {
         if (noteNum >= notes.length) {
             notes = Arrays.copyOf(notes, notes.length * 2);
         }
-        if (noteNum < initialSize / 2) {
-            notes = Arrays.copyOf(notes, initialSize);
+        if (noteNum < INITIAL_SIZE / 2) {
+            notes = Arrays.copyOf(notes, INITIAL_SIZE);
         }
     }
 
